@@ -348,6 +348,21 @@ class BinanceRestApi(RestClient):
             callback=self.on_query_contract,
             data=data
         )
+        # try_count = 0
+        # while try_count < 3:
+        #     response = self.add_request(
+        #         method="GET",
+        #         path="/api/v3/exchangeInfo",
+        #         callback=self.on_query_contract,
+        #         data=data
+        #     )
+        #     if response.response is not None:
+        #         if response.response.status_code == 200:
+        #             try_count = 3
+        #
+        #     try_count += 1
+        #     print(f"合约信息未找到[Conenction Response: {response.response}] and Retrying...{try_count}")
+
 
     def _new_order_id(self) -> int:
         """生成本地委托号"""
@@ -833,7 +848,7 @@ class BinanceDataWebsocketApi(WebsocketClient):
         tick: TickData = self.ticks[symbol]
 
         if channel == "ticker":
-            tick.volume = float(data['v'])
+            tick.volume = float(data['Q'])
             tick.open_price = float(data['o'])
             tick.high_price = float(data['h'])
             tick.low_price = float(data['l'])
