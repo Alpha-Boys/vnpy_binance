@@ -27,4 +27,4 @@ from .binanceusdt_gateway import BinanceUsdtGateway
 from .binanceinverse_gateway import BinanceInverseGateway
 
 
-__version__ = importlib_metadata.version("vnpy_binance")
+# __version__ = importlib_metadata.version("vnpy_binance")

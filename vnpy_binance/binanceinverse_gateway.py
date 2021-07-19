@@ -122,15 +122,22 @@ class BinanceInverseGateway(BaseGateway):
     vn.py用于对接币安永续账户的交易接口。
     """
 
+    # default_setting: Dict[str, Any] = {
+    #     "key": "",
+    #     "secret": "",
+    #     "会话数": 3,
+    #     "服务器": ["TESTNET", "REAL"],
+    #     "代理地址": "",
+    #     "代理端口": 0,
+    # }
     default_setting: Dict[str, Any] = {
         "key": "",
         "secret": "",
-        "会话数": 3,
-        "服务器": ["TESTNET", "REAL"],
-        "代理地址": "",
-        "代理端口": 0,
+        "session_number": 3,
+        "server": ["TESTNET", "REAL"],
+        "proxy_host": "",
+        "proxy_port": 0,
     }
-
     exchanges: Exchange = [Exchange.BINANCE]
 
     def __init__(self, event_engine: EventEngine, gateway_name: str = "BINANCEINVERSE") -> None:
@@ -147,10 +154,10 @@ class BinanceInverseGateway(BaseGateway):
         """连接交易接口"""
         key: str = setting["key"]
         secret: str = setting["secret"]
-        session_number: str = setting["会话数"]
-        server: str = setting["服务器"]
-        proxy_host: str = setting["代理地址"]
-        proxy_port: str = setting["代理端口"]
+        session_number: str = setting["session_number"]
+        server: str = setting["server"]
+        proxy_host: str = setting["proxy_host"]
+        proxy_port: str = setting["proxy_port"]
 
         self.rest_api.connect(key, secret, session_number, server,
                               proxy_host, proxy_port)

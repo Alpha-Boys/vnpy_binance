@@ -53,14 +53,16 @@ REST_HOST: str = "https://www.binance.com"
 
 # 实盘Websocket API地址
 WEBSOCKET_TRADE_HOST: str = "wss://stream.binance.com:9443/ws/"
-WEBSOCKET_DATA_HOST: str = "wss://stream.binance.com:9443/stream?streams="
+# WEBSOCKET_DATA_HOST: str = "wss://stream.binance.com:9443/stream?streams="
+WEBSOCKET_DATA_HOST: str = "wss://stream.binance.com:9443/ws/"
 
 # 模拟盘REST API地址
 TESTNET_REST_HOST: str = "https://testnet.binance.vision"
 
 # 模拟盘Websocket API地址
 TESTNET_WEBSOCKET_TRADE_HOST: str = "wss://testnet.binance.vision/ws/"
-TESTNET_WEBSOCKET_DATA_HOST: str = "wss://testnet.binance.vision/stream?streams="
+# TESTNET_WEBSOCKET_DATA_HOST: str = "wss://testnet.binance.vision/stream?streams="
+TESTNET_WEBSOCKET_DATA_HOST: str = "wss://testnet.binance.vision/ws/"
 
 # 委托状态映射
 STATUS_BINANCE2VT: Dict[str, Status] = {
@@ -119,9 +121,10 @@ class BinanceGateway(BaseGateway):
         "key": "",
         "secret": "",
         "session_number": 3,
+        "server": ["TESTNET", "REAL"],
+        # "contract_type": ["COIN", "USDT"],
         "proxy_host": "",
         "proxy_port": 0,
-        "server": ["TESTNET", "REAL"]
     }
 
     exchanges: Exchange = [Exchange.BINANCE]
