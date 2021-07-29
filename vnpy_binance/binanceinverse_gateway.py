@@ -719,12 +719,7 @@ class BinanceInverseRestApi(RestClient):
 
             # 如果请求失败则终止循环
             if resp.status_code // 100 != 2:
-                data: dict = resp.json()
-                if data["msg"]:
-                    m = data["msg"]
-                else:
-                    m = "无"
-                msg: str = f"获取历史数据失败，状态码：{resp.status_code}，信息：{m}"
+                msg: str = f"获取历史数据失败，状态码：{resp.status_code}，信息：{resp.text}"
                 self.gateway.write_log(msg)
                 break
             else:
@@ -913,7 +908,7 @@ class BinanceInverseDataWebsocketApi(WebsocketClient):
         if req.symbol not in symbol_contract_map:
             self.gateway.write_log(f"找不到该合约代码{req.symbol}")
             return
-    
+
         if req.vt_symbol in self.subscribed:
             return
 
