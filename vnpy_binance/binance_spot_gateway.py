@@ -126,7 +126,7 @@ class BinanceSpotGateway(BaseGateway):
 
         self.trade_ws_api: "BinanceSpotTradeWebsocketApi" = BinanceSpotTradeWebsocketApi(self)
         self.market_ws_api: "BinanceSpotDataWebsocketApi" = BinanceSpotDataWebsocketApi(self)
-        self.rest_api: "BinanceSpotRestAPi" = BinanceSpotRestAPi(self)
+        self.rest_api: "BinanceSpotRestApi" = BinanceSpotRestApi(self)
 
         self.orders: Dict[str, OrderData] = {}
 
@@ -188,7 +188,7 @@ class BinanceSpotGateway(BaseGateway):
         return self.orders.get(orderid, None)
 
 
-class BinanceSpotRestAPi(RestClient):
+class BinanceSpotRestApi(RestClient):
     """币安现货REST API"""
 
     def __init__(self, gateway: BinanceSpotGateway) -> None:
@@ -437,7 +437,7 @@ class BinanceSpotRestAPi(RestClient):
             callback=self.on_cancel_order,
             params=params,
             data=data,
-            on_failed=self.on_cancel_ordr_failed,
+            on_failed=self.on_cancel_order_failed,
             on_error=self.on_cancel_order_error,
             extra=order,
         )
@@ -523,7 +523,6 @@ class BinanceSpotRestAPi(RestClient):
             self.gateway.on_order(order)
 
         self.gateway.write_log(f"{self.gateway_name} 委托信息查询成功: {request.path.split('?')[0]}")
-
 
     def on_query_orders(self, data: dict, request: Request) -> None:
         """"""
