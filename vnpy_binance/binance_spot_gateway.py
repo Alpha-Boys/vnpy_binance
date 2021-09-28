@@ -869,7 +869,7 @@ class BinanceSpotDataWebsocketApi(WebsocketClient):
         channels = []
         for ws_symbol in self.ticks.keys():
             channels.append(ws_symbol + "@ticker")
-            channels.append(ws_symbol + "@depth5")
+            channels.append(ws_symbol + "@depth")
 
         req: dict = {
             "method": "SUBSCRIBE",
@@ -902,14 +902,14 @@ class BinanceSpotDataWebsocketApi(WebsocketClient):
             tick.turnover = tick.volume * tick.last_price
             tick.datetime = generate_datetime(float(data['E']))
         else:
-            bids: list = data["bids"]
-            for n in range(min(5, len(bids))):
+            bids: list = data["b"]
+            for n in range(min(20, len(bids))):
                 price, volume = bids[n]
                 tick.__setattr__("bid_price_" + str(n + 1), float(price))
                 tick.__setattr__("bid_volume_" + str(n + 1), float(volume))
 
-            asks: list = data["asks"]
-            for n in range(min(5, len(asks))):
+            asks: list = data["a"]
+            for n in range(min(20, len(asks))):
                 price, volume = asks[n]
                 tick.__setattr__("ask_price_" + str(n + 1), float(price))
                 tick.__setattr__("ask_volume_" + str(n + 1), float(volume))
