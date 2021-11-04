@@ -139,8 +139,22 @@ class BinanceSpotGateway(BaseGateway):
         proxy_host: str = setting["proxy_host"]
         proxy_port: str = setting["proxy_port"]
         server: str = setting["server"]
+        is_us: bool = setting.get('is_us') is not None
 
+        if is_us:
+            global REST_HOST
+            REST_HOST = REST_HOST.replace('.com', '.us')
+
+            global WEBSOCKET_TRADE_HOST
+            WEBSOCKET_TRADE_HOST = WEBSOCKET_TRADE_HOST.replace('.com', '.us')
+
+            global WEBSOCKET_DATA_HOST
+            WEBSOCKET_DATA_HOST = WEBSOCKET_DATA_HOST.replace('.com', '.us')
+
+        # Accommodate account of binance.us
+        # 1) Rest API url and 2) trade websocket url
         self.rest_api.connect(key, secret, proxy_host, proxy_port, server)
+        # 3) Market websocket url
         self.market_ws_api.connect(proxy_host, proxy_port, server)
         self.event_engine.register(EVENT_TIMER, self.process_timer_event)
 
@@ -275,6 +289,7 @@ class BinanceSpotRestApi(RestClient):
         self.proxy_port = proxy_port
         self.proxy_host = proxy_host
         self.server = server
+        # Used in self.init(REST_HOST, proxy_host, proxy_port) and self.start_user_stream()
 
         self.connect_time = (
             int(datetime.now(CHINA_TZ).strftime("%y%m%d%H%M%S")) * self.order_count
