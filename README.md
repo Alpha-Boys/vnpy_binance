@@ -1,55 +1,54 @@
-# vn.py框架的BINANCE底层接口
+# Binance trading gateway for VeighNa Evo
 
 <p align="center">
-  <img src ="https://vnpy.oss-cn-shanghai.aliyuncs.com/vnpy-logo.png"/>
+  <img src ="https://github.com/veighna-global/vnpy_evo/blob/dev/logo.png" width="300" height="300"/>
 </p>
 
 <p align="center">
-    <img src ="https://img.shields.io/badge/version-2021.10.27-blueviolet.svg"/>
+    <img src ="https://img.shields.io/badge/version-2025.1.25-blueviolet.svg"/>
     <img src ="https://img.shields.io/badge/platform-windows|linux|macos-yellow.svg"/>
-    <img src ="https://img.shields.io/badge/python-3.7-blue.svg" />
-    <img src ="https://img.shields.io/github/license/vnpy/vnpy.svg?color=orange"/>
+    <img src ="https://img.shields.io/badge/python-3.10|3.11|3.12-blue.svg"/>
+    <img src ="https://img.shields.io/github/license/veighna-global/vnpy_evo.svg?color=orange"/>
 </p>
 
-## 说明
 
-基于币安交易所的API开发，支持账户下的现货、期货、永续交易。
+## Introduction
 
-使用时需要注意本接口：
+This gateway is developed based on Binance's REST and Websocket API, and supports spot, linear contract and inverse contract trading.
 
-1. 只支持全仓保证金模式
-2. 只支持单向持仓模式
+**For derivatives contract trading, please notice:**
 
-请在BINANCE网站完成账户的相应设置后再使用。
+1. Only supports cross margin mode.
+2. Only supports one-way position mode.
 
-## 安装
+## Install
 
-安装需要基于2.7.0版本以上的[VN Studio](https://www.vnpy.com)。
-
-直接使用pip命令：
+Users can easily install ``vnpy_binance`` by pip according to the following command.
 
 ```
 pip install vnpy_binance
 ```
 
-下载解压后在cmd中运行
+Also, users can install ``vnpy_binance`` using the source code. Clone the repository and install as follows:
 
 ```
+git clone https://github.com/veighna-global/vnpy_binance.git && cd vnpy_binance
+
 python setup.py install
 ```
 
-## 使用
+## A Simple Example
 
-以脚本方式启动（script/run.py）：
+Save this as run.py.
 
 ```
-from vnpy.event import EventEngine
-from vnpy.trader.engine import MainEngine
-from vnpy.trader.ui import MainWindow, create_qapp
+from vnpy_evo.event import EventEngine
+from vnpy_evo.trader.engine import MainEngine
+from vnpy_evo.trader.ui import MainWindow, create_qapp
 
 from vnpy_binance import (
     BinanceSpotGateway,
-    BinanceUsdtGateway,
+    BinanceLinearGateway,
     BinanceInverseGateway
 )
 
@@ -61,7 +60,7 @@ def main():
     event_engine = EventEngine()
     main_engine = MainEngine(event_engine)
     main_engine.add_gateway(BinanceSpotGateway)
-    main_engine.add_gateway(BinanceUsdtGateway)
+    main_engine.add_gateway(BinanceLinearGateway)
     main_engine.add_gateway(BinanceInverseGateway)
 
     main_window = MainWindow(main_engine, event_engine)
