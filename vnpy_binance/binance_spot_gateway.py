@@ -900,7 +900,7 @@ class BinanceSpotDataWebsocketApi(WebsocketClient):
         tick: TickData = self.ticks[symbol]
 
         if channel == "ticker":
-            tick.volume = float(data['v'])
+            tick.volume = float(data['Q'])
             tick.turnover = float(data['q'])
             tick.open_price = float(data['o'])
             tick.high_price = float(data['h'])
