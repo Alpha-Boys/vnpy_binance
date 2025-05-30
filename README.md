@@ -1,4 +1,4 @@
-# Binance trading gateway for VeighNa Evo
+# Binance trading gateway for VeighNa
 
 <p align="center">
   <img src ="https://github.com/veighna-global/vnpy_evo/blob/dev/logo.png" width="300" height="300"/>
@@ -8,7 +8,7 @@
     <img src ="https://img.shields.io/badge/version-2025.1.25-blueviolet.svg"/>
     <img src ="https://img.shields.io/badge/platform-windows|linux|macos-yellow.svg"/>
     <img src ="https://img.shields.io/badge/python-3.10|3.11|3.12-blue.svg"/>
-    <img src ="https://img.shields.io/github/license/veighna-global/vnpy_evo.svg?color=orange"/>
+    <img src ="https://img.shields.io/github/license/veighna-global/vnpy_binance.svg?color=orange"/>
 </p>
 
 
@@ -42,26 +42,22 @@ python setup.py install
 Save this as run.py.
 
 ```
-from vnpy_evo.event import EventEngine
-from vnpy_evo.trader.engine import MainEngine
-from vnpy_evo.trader.ui import MainWindow, create_qapp
+from vnpy.event import EventEngine
+from vnpy.trader.engine import MainEngine
+from vnpy.trader.ui import MainWindow, create_qapp
 
 from vnpy_binance import (
-    BinanceSpotGateway,
     BinanceLinearGateway,
-    BinanceInverseGateway
 )
 
 
-def main():
-    """主入口函数"""
+def main() -> None:
+    """main entry"""
     qapp = create_qapp()
 
     event_engine = EventEngine()
     main_engine = MainEngine(event_engine)
-    main_engine.add_gateway(BinanceSpotGateway)
     main_engine.add_gateway(BinanceLinearGateway)
-    main_engine.add_gateway(BinanceInverseGateway)
 
     main_window = MainWindow(main_engine, event_engine)
     main_window.showMaximized()
