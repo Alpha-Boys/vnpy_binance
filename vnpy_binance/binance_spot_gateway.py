@@ -244,6 +244,8 @@ class BinanceSpotRestAPi(RestClient):
                 timestamp += abs(self.time_offset)
 
             request.params["timestamp"] = timestamp
+            # Increase recvWindow to handle large time differences
+            request.params["recvWindow"] = 60000
 
             query: str = urllib.parse.urlencode(sorted(request.params.items()))
             signature: bytes = hmac.new(
